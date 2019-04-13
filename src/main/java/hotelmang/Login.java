@@ -34,7 +34,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					Login frame= new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +46,8 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public  Login() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -86,7 +87,11 @@ public class Login extends JFrame {
 						ResultSet result = state.executeQuery(sql);
 						if (result.next()) {
 						
-						JOptionPane.showMessageDialog(null,"Login sucessfully");}
+						JOptionPane.showMessageDialog(null,"Login sucessfully");
+						mainpage bnm= new mainpage();
+						bnm.setVisible(true);
+					
+						}
 						 else
 						
 						 {	JOptionPane.showMessageDialog(null,"incorrect password or username");
@@ -100,6 +105,8 @@ public class Login extends JFrame {
 					}
 					
 			}
+
+			
 		});
 		btnLogin.setBounds(98, 210, 89, 40);
 		contentPane.add(btnLogin);
