@@ -3,6 +3,7 @@ package hotelmang;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +20,7 @@ import javax.swing.JSlider;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
@@ -38,6 +40,7 @@ public class mainpage extends JFrame {
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTable table_1;
+	private JTextField textField_9;
 
 	/**
 	 * Launch the application.
@@ -67,7 +70,7 @@ public class mainpage extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("first name");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel.setBounds(10, 82, 60, 28);
+		lblNewLabel.setBounds(10, 108, 60, 28);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("last name");
@@ -91,7 +94,7 @@ public class mainpage extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 		
 		textField = new JTextField();
-		textField.setBounds(90, 87, 86, 20);
+		textField.setBounds(90, 113, 86, 20);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -213,6 +216,57 @@ public class mainpage extends JFrame {
 		getContentPane().add(button);
 		
 		Button button_1 = new Button("show");
+		button_1.addActionListener(new ActionListener() {
+			private JLabel ID;
+			private JLabel Roomno;
+			public void actionPerformed(ActionEvent e) {
+				Connection connection;
+				try {
+					connection = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/hotelmang", 
+								"root", "1403");
+					DefaultTableModel tab = new DefaultTableModel();
+					tab.addColumn("Id");
+					tab.addColumn("firstName");
+					tab.addColumn("lastname");
+					tab.addColumn("address");
+					tab.addColumn("mobile");
+					tab.addColumn("gender");
+					tab.addColumn("check in");
+					tab.addColumn("check out");
+					tab.addColumn("room no");
+					tab.addColumn("room type");
+					tab.addColumn("rate");
+			           String query = " select * from htelmang where id='"+ID.getText()
+						+"' or room_no='"+Roomno.getText()+"'";
+			           Statement st = connection.createStatement();
+			           ResultSet res=st.executeQuery(query);
+			           while (res.next()) {
+			        	   
+				              tab.addRow(new Object [] {
+				            		  res.getString("id"),
+				            		  res.getString("firtname"),
+				            		  res.getString("lastname"),
+				            		  res.getString("address"),
+				            		  res.getString("mobile"),
+				            		  res.getString("gender"),
+				            		  res.getString("check in"),
+				            		  res.getString("check out"),
+				            		  res.getString("room no"),
+				            		  res.getString("room type"),
+				            		  res.getString("rate"),
+				              });
+				              }
+			           res.close();
+			           st.close();
+			           connection.close();
+				}catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				 		
+				}
+		});
 		button_1.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 18));
 		button_1.setBounds(319, 348, 70, 22);
 		getContentPane().add(button_1);
@@ -241,24 +295,20 @@ public class mainpage extends JFrame {
 		button_4.setBounds(336, 393, 70, 22);
 		getContentPane().add(button_4);
 		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(10, 0, 636, 21);
-		getContentPane().add(menuBar);
-		
-		JMenu mnHome = new JMenu("Home");
-		menuBar.add(mnHome);
-		
-		JMenu mnRoom = new JMenu("Room");
-		menuBar.add(mnRoom);
-		
-		JMenu mnEmployee = new JMenu("employee");
-		menuBar.add(mnEmployee);
-		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(228, 90, 380, 230);
 		getContentPane().add(scrollPane_1);
 		
 		table_1 = new JTable();
 		scrollPane_1.setViewportView(table_1);
+		
+		JLabel lblId = new JLabel("ID");
+		lblId.setBounds(24, 83, 46, 14);
+		getContentPane().add(lblId);
+		
+		textField_9 = new JTextField();
+		textField_9.setBounds(90, 82, 86, 20);
+		getContentPane().add(textField_9);
+		textField_9.setColumns(10);
 	}
 }
